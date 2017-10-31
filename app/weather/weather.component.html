@@ -24,6 +24,9 @@
 						<div class="forecast-icon">
 							<img src="{{ get_cond_image(items.query?.results?.channel?.item?.forecast[0].code) }}" alt="" width=90>
 						</div>
+						<div>
+							{{ get_cond_text(items.query?.results?.channel?.item?.forecast[0].code) }}
+						</div>
 					</div>
 					<span><img src="assets/images/icon-wind.png" alt="">{{items.query?.results?.channel?.wind?.speed}} {{items.query?.results?.channel?.units?.speed}}</span>
 					<span><img src="assets/images/icon-compass.png" alt="">{{items.query?.results?.channel?.wind?.direction}}</span>
@@ -36,6 +39,9 @@
 				<div class="forecast-content">
 					<div class="forecast-icon">
 						<img src="{{ get_cond_image(forecast.code) }}" alt="{{ get_cond_text(forecast.code) }}" width=48>
+					</div>
+					<div>
+						{{ get_cond_text(forecast.code) }}
 					</div>
 					<div class="degree">{{ forecast.high}}<sup>o</sup>{{items.query?.results?.channel?.units?.temperature}}</div>
 					<small>{{ forecast.low }}<sup>o</sup></small>
