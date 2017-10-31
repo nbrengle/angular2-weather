@@ -1,120 +1,44 @@
 <div class="hero">
 	<div class="container">
-		<form action="#" class="find-location">		
+		<form action="#" class="find-location">
 			<input #term (keyup)="search(term.value)" type="text" placeholder="Find your location...">
 			<!-- <input type="submit" value="Find"> -->
-		</form>		
-	</div>	
-</div>
-
-
-<!-- <div *ngIf="items">{{items | json}}</div> -->
-<div>
-<!-- hello
-{{ items.query?.results?.channel?.location?.city }}
-{{ items.query?.results?.channel?.location?.country }} -->
+		</form>
+	</div>
 </div>
 
 <div>{{ items.query?.results?.channel?.item?.condition?.temp }}</div>
-<!-- query.results.channel.item.condition.temp -->
-<!-- query.results.channel.language -->
-
-<!-- <div *ngFor="let item of items | async">
-	{{item | json}}	
-	<h1>test</h1>
-</div> -->
 
 <div class="forecast-table">
 	<div class="container" *ngIf="isVisible">
 		<div class="forecast-container">
 			<div class="today forecast">
 				<div class="forecast-header">
-					<div class="day">Monday</div>
-					<div class="date">6 Oct</div>
+					<div class="day">{{ items.query?.results?.channel?.item?.forecast[0].day }}</div>
+					<div class="date">{{ items.query?.results?.channel?.item?.forecast[0].date }}</div>
 				</div> <!-- .forecast-header -->
 				<div class="forecast-content">
 					<div class="location">{{ items.query?.results?.channel?.location?.city }}, {{ items.query?.results?.channel?.location?.country }}</div>
 					<div class="degree">
-						<div class="num">{{ items.query?.results?.channel?.item?.condition?.temp }}<sup>o</sup>F</div>
+						<div class="num">{{ items.query?.results?.channel?.item?.condition?.temp }}<sup>o</sup>{{items.query?.results?.channel?.units?.temperature}}</div>
 						<div class="forecast-icon">
-							<img src="assets/images/icons/icon-1.svg" alt="" width=90>
-						</div>	
+							<img src="{{ get_cond_image(items.query?.results?.channel?.item?.forecast[0].code) }}" alt="" width=90>
+						</div>
 					</div>
-					<span><img src="assets/images/icon-umberella.png" alt="">20%</span>
-					<span><img src="assets/images/icon-wind.png" alt="">18km/h</span>
-					<span><img src="assets/images/icon-compass.png" alt="">East</span>
+					<span><img src="assets/images/icon-wind.png" alt="">{{items.query?.results?.channel?.wind?.speed}} {{items.query?.results?.channel?.units?.speed}}</span>
+					<span><img src="assets/images/icon-compass.png" alt="">{{items.query?.results?.channel?.wind?.direction}}</span>
 				</div>
 			</div>
-			<div class="forecast">
+			<div *ngFor="let forecast of items.query?.results?.channel?.item?.forecast.slice(1,7)" class="forecast">
 				<div class="forecast-header">
-					<div class="day">Tuesday</div>
+					<div class="day">{{ forecast.day }}</div>
 				</div> <!-- .forecast-header -->
 				<div class="forecast-content">
 					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-3.svg" alt="" width=48>
+						<img src="{{ get_cond_image(forecast.code) }}" alt="{{ get_cond_text(forecast.code) }}" width=48>
 					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
-				</div>
-			</div>
-			<div class="forecast">
-				<div class="forecast-header">
-					<div class="day">Wednesday</div>
-				</div> <!-- .forecast-header -->
-				<div class="forecast-content">
-					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-5.svg" alt="" width=48>
-					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
-				</div>
-			</div>
-			<div class="forecast">
-				<div class="forecast-header">
-					<div class="day">Thursday</div>
-				</div> <!-- .forecast-header -->
-				<div class="forecast-content">
-					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-7.svg" alt="" width=48>
-					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
-				</div>
-			</div>
-			<div class="forecast">
-				<div class="forecast-header">
-					<div class="day">Friday</div>
-				</div> <!-- .forecast-header -->
-				<div class="forecast-content">
-					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-12.svg" alt="" width=48>
-					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
-				</div>
-			</div>
-			<div class="forecast">
-				<div class="forecast-header">
-					<div class="day">Saturday</div>
-				</div> <!-- .forecast-header -->
-				<div class="forecast-content">
-					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-13.svg" alt="" width=48>
-					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
-				</div>
-			</div>
-			<div class="forecast">
-				<div class="forecast-header">
-					<div class="day">Sunday</div>
-				</div> <!-- .forecast-header -->
-				<div class="forecast-content">
-					<div class="forecast-icon">
-						<img src="assets/images/icons/icon-14.svg" alt="" width=48>
-					</div>
-					<div class="degree">23<sup>o</sup>C</div>
-					<small>18<sup>o</sup></small>
+					<div class="degree">{{ forecast.high}}<sup>o</sup>{{items.query?.results?.channel?.units?.temperature}}</div>
+					<small>{{ forecast.low }}<sup>o</sup></small>
 				</div>
 			</div>
 		</div>
